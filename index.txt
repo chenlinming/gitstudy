@@ -1,0 +1,213 @@
+1.
+检查配置信息
+如果想要检查你的配置，可以使用 git config --list 命令来列出所有 Git 当时能找到的配置。
+git config --list
+user.name=John Doe
+user.email=johndoe@example.com
+color.status=auto
+color.branch=auto
+color.interactive=auto
+color.diff=auto
+git config <key>： 来检查 Git 的某一项配置
+
+git config user.name
+John Doe
+
+git help config
+
+2.
+获取 Git 仓库
+将尚未进行版本控制的本地目录转换为 Git 仓库；
+
+从其它服务器 克隆 一个已存在的 Git 仓库。
+
+git clone https://github.com/libgit2/libgit2 mylibgit
+这会执行与上一条命令相同的操作，但目标目录名变为了 mylibgit。
+
+Git 支持多种数据传输协议。 
+上面的例子使用的是 https:// 协议，不过你也可以使用 git:// 协议或者使用 SSH 传输协议，比如 user@server:path/to/repo.git 
+
+工作目录下的每一个文件都不外乎这两种状态：已跟踪 或 未跟踪
+git status
+跟踪新文件
+ git add 开始跟踪一个文件
+ git add README
+ git add 命令。 这是个多功能命令：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等。 将这个命令理解为“精确地将内容添加到下一次提交中”而不是“将一个文件添加到项目中”要更加合适。
+ 
+git status 命令的输出十分详细，但其用语有些繁琐。 Git 有一个选项可以帮你缩短状态命令的输出，这样可以以简洁的方式查看更改。 如果你使用 git status -s 命令或 git status --short 命令，你将得到一种格式更为紧凑的输出
+查看尚未暂存的文件更新了哪些部分，不加参数直接输入 git diff
+git diff --staged 命令。 这条命令将比对已暂存文件与最后一次提交的文件差异：
+git diff --cached 查看已经暂存起来的变化
+git diff 本身只显示尚未暂存的改动，而不是自上次提交以来所做的所有改动。 所以有时候你一下子暂存了所有更新过的文件 运行 git diff 后却什么也没有
+git commit 加上 -a 选项，Git 就会自动把所有已经跟踪过的文件暂存起来一并提交，从而跳过 git add 步骤
+
+ Git 仓库中删除（亦即从暂存区域移除），但仍然希望保留在当前工作目录中
+ git rm --cached README
+ git log
+ git log 有许多选项可以帮助你搜寻你所要找的提交， 下面我们会介绍几个最常用的选项。
+
+其中一个比较有用的选项是 -p 或 --patch
+
+ git log 附带一系列的总结性选项。 比如你想看到每次提交的简略统计信息，可以使用 --stat 选项：
+
+$ git log --stat
+
+
+$ git log --pretty=oneline
+ oneline 会将每个提交放在一行显示，在浏览大量的提交时非常有用。 另外还有 short，full 和 fuller 选项，它们展示信息的格式基本一致，但是详尽程度不一：
+git log --pretty=oneline
+
+ 当 oneline 或 format 与另一个 log 选项 --graph 结合使用时尤其有用。 这个选项添加了一些 ASCII 字符串来形象地展示你的分支、合并历史：
+git log --pretty=format:"%h %s" --graph
+
+撤消对文件的修改
+git checkout -- CONTRIBUTING.md
+git checkout -- <file> 是一个危险的命令。 你对那个文件在本地的任何修改都会消失——Git 会用最近提交的版本覆盖掉它。 除非你确实清楚不想要对那个文件的本地修改了，否则请不要使用这个命令
+
+查看远程仓库
+git remote -v
+
+如果你的远程仓库不止一个，该命令会将它们全部列出。 例如，与几个协作者合作的，拥有多个远程仓库的仓库看起来像下面这样
+bakkdoor  https://github.com/bakkdoor/grit (fetch)
+bakkdoor  https://github.com/bakkdoor/grit (push)
+cho45     https://github.com/cho45/grit (fetch)
+cho45     https://github.com/cho45/grit (push)
+defunkt   https://github.com/defunkt/grit (fetch)
+defunkt   https://github.com/defunkt/grit (push)
+koke      git://github.com/koke/grit.git (fetch)
+koke      git://github.com/koke/grit.git (push)
+origin    git@github.com:mojombo/grit.git (fetch)
+origin    git@github.com:mojombo/grit.git (push)
+
+添加远程仓库
+git remote add <shortname> <url>
+git remote add pb https://github.com/paulboone/ticgit
+
+ git fetch pb
+ 
+从远程仓库中抓取与拉取
+就如刚才所见，从远程仓库中获得数据，可以执行：
+
+$ git fetch <remote>
+如果你的当前分支设置了跟踪远程分支（阅读下一节和 Git 分支 了解更多信息）， 那么可以用 git pull 命令来自动抓取后合并该远程分支到当前分支。 这或许是个更加简单舒服的工作流程。默认情况下，git clone 命令会自动设置本地 master 分支跟踪克隆的远程仓库的 master 分支（或其它名字的默认分支）。 运行 git pull 通常会从最初克隆的服务器上抓取数据并自动尝试合并到当前所在的分支
+ git push <remote> <branch>
+ 只有当你有所克隆服务器的写入权限，并且之前没有人推送过时，这条命令才能生效。 当你和其他人在同一时间克隆，他们先推送到上游然后你再推送到上游，你的推送就会毫无疑问地被拒绝。 你必须先抓取他们的工作并将其合并进你的工作后才能推送
+ ？版本时间问题 你a-->c,他a--b
+ 
+ 查看某个远程仓库
+ git remote show origin
+ 远程仓库的重命名与移除
+ git remote rename pb paul
+ 移除一个远程仓库——你已经从服务器上搬走了或不再想使用某一个特定的镜像
+ git remote remove paul
+ 
+ Git 中列出已有的标签非常简单，只需要输入 git tag
+ git tag
+ 创建标签
+ 轻量标签（lightweight）与附注标签（annotated）。
+ git tag -a v1.4 -m "my version 1.4"
+ git show v1.4
+ 轻量标签
+ git tag v1.4-lw
+ 
+ 后期打标签
+ git tag -a v1.2 9fceb02
+ git show v1.2
+ git tag -d v1.4-lw
+ 
+ Git 别名
+  git config --global alias.co checkout
+ 
+ 分支
+ 在进行提交操作时，Git 会保存一个提交对象（commit object）。 知道了 Git 保存数据的方式，我们可以很自然的想到——该提交对象会包含一个指向暂存内容快照的指针。 但不仅仅是这样，该提交对象还包含了作者的姓名和邮箱、提交时输入的信息以及指向它的父对象的指针。 首次提交产生的提交对象没有父对象，普通提交操作产生的提交对象有一个父对象， 而由多个分支合并产生的提交对象有多个父对象
+ 这次产生的提交对象会包含一个指向上次提交对象（父对象）的指针
+ 分支创建
+ git branch testing
+ HEAD
+ 将 HEAD 想象为当前分支的别名
+ HEAD 指向当前所在的分支
+ git log --oneline --decorate
+f30ab (HEAD -> master, testing)
+分支切换
+git checkout testing
+HEAD 分支随着提交操作自动向前移动
+项目分叉历史
+git log --oneline --decorate --graph --all
+hotfix 分支合并回你的 master 分支来部署到线上。 你可以使用 git merge 命令来达到上述目的：
+$ git checkout master
+$ git merge hotfix
+Updating f42c576..3a0874c
+Fast-forward
+由于你想要合并的分支 hotfix 所指向的提交 C4 是你所在的提交 C2 的直接后继， 因此 Git 会直接将指针向前移动。换句话说，当你试图合并两个分支时， 如果顺着一个分支走下去能够到达另一个分支，那么 Git 在合并两者的时候， 只会简单的将指针向前推进（指针右移），因为这种情况下的合并操作没有需要解决的分歧——这就叫做 “快进（fast-forward）
+关于这个紧急问题的解决方案发布之后，你准备回到被打断之前时的工作中。 然而，你应该先删除 hotfix 分支，因为你已经不再需要它了 —— master 分支已经指向了同一个位置。 你可以使用带 -d 选项的 git branch 命令来删除分支：
+
+$ git branch -d hotfix
+
+分支的合并
+因为，master 分支所在提交并不是 iss53 分支所在提交的直接祖先，Git 不得不做一些额外的工作。 出现这种情况的时候，Git 会使用两个分支的末端所指的快照（C4 和 C5）以及这两个分支的公共祖先（C2），做一个简单的三方合并
+遇到冲突时的分支合并
+有时候合并操作不会如此顺利。 如果你在两个不同的分支中，对同一个文件的同一个部分进行了不同的修改，Git 就没法干净的合并它们。 如果你对 #53 问题的修改和有关 hotfix 分支的修改都涉及到同一个文件的同一处，在合并它们的时候就会产生合并冲突
+git status
+
+On branch master
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+
+    both modified:      index.html
+
+no changes added to commit (use "git add" and/or "git commit -a")
+
+<<<<<<< HEAD:index.html
+<div id="footer">contact : email.support@github.com</div>
+=======
+<div id="footer">
+ please contact us at support@github.com
+</div>
+>>>>>>> iss53:index.html
+这表示 HEAD 所指示的版本（也就是你的 master 分支所在的位置，因为你在运行 merge 命令的时候已经检出到了这个分支）在这个区段的上半部分（======= 的上半部分），而 iss53 分支所指示的版本在 ======= 的下半部分。 为了解决冲突，你必须选择使用由 ======= 分割的两部分中的一个，或者你也可以自行合并这些内容。 例如，你可以通过把这段内容换成下面的样子来解决冲突：
+
+<div id="footer">
+please contact us at email.support@github.com
+</div>
+
+分支管理
+git branch 
+会得到当前所有分支的一个列表
+注意 master 分支前的 * 字符：它代表现在检出的那一个分支（也就是说，当前 HEAD 指针所指向的分支）
+ 如果需要查看每一个分支的最后一次提交，可以运行 git branch -v 命令
+ merged 与 --no-merged 这两个有用的选项可以过滤这个列表中已经合并或尚未合并到当前分支的分支
+ git branch --merged
+ 看所有包含未合并工作的分支，可以运行 git branch --no-merged：
+
+$ git branch --no-merged
+  testing
+  Git 使用简单的三方合并
+ 分支开发工作流
+分支的分支
+
+远程分支
+ origin/master
+ master
+ git fetch <remote> 
+ git fetch 更新你的远程跟踪分支
+ git remote add 命令添加一个新的远程仓库引用到当前的项目
+ 
+ git push origin serverfix:awesomebranch 来将本地的 serverfix 分支推送到远程仓库上的 awesomebranch 分支
+ 如何避免每次输入密码
+ git config --global credential.helper cache
+ git merge origin/serverfix 
+ git checkout -b serverfix origin/serverfix
+ 如果想要查看设置的所有跟踪分支，可以使用 git branch 的 -vv 选项。 这会将所有的本地分支列出来并且包含更多的信息，如每一个分支正在跟踪哪个远程分支与本地分支是否是领先、落后或是都有。
+
+$ git branch -vv
+
+如果想要统计最新的领先与落后数字，需要在运行此命令前抓取所有的远程仓库。 可以像这样做：
+
+$ git fetch --all; git branch -vv
+由于 git pull 的魔法经常令人困惑所以通常单独显式地使用 fetch 与 merge 命令会更好一些
+可以运行带有 --delete 选项的 git push 命令来删除一个远程分支。 如果想要从服务器上删除 serverfix 分支，运行下面的命令：
+
+$ git push origin --delete serverfix
