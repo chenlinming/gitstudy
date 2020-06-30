@@ -1,0 +1,11 @@
+comand
+显示乌龟st
+隐藏乌龟ht
+清除屏幕cs
+清除clean
+初始化命令draw
+回家命令home
+
+移动命令
+前进 fd step
+后退 bk step
