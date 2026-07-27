@@ -1,0 +1,72 @@
+1.start
+
+	安装git
+	yum install git
+	git config --global user.name "Your Name"
+	git config --global user.email mail@example.com
+	After installing Git, configure your username and email address.
+	first repo
+	empty folder
+	cd floder
+
+	1.git init  This creates a hidden folder, .git
+
+	2.Next, check what files Git will add to your new repository; this step is worth special care:
+	git status
+
+	git add <file/directory name #1> <file/directory name #2> < ... >
+
+	git add . 添加到暂存区（"stage")
+
+	git commit -m "Initial commit" 提交到仓库
+
+	//添加远程
+	git remote add origin https://<your-git-service-address>/owner/repository.git
+
+	git remote add origin ssh://username@server:/path/to/repo.git
+
+	Now copy your local repository to the remote:
+	git push --set-upstream origin master
+2.log
+	git log
+	
+	To see the log in a prettier graph-like structure use
+	git log --decorate --oneline --graph
+	
+	git log --oneline 显示hash message
+	
+	git shortlog
+3.romote
+	Check existing remote
+	git remote -v
+	
+	You can create a new branch and switch to it using
+	git checkout -b AP-57
+	//推分支到远程仓库
+	git push --set-upstream origin AP-57
+4.stage
+	git add .
+	git reset <filepath>  取消暂存，即把文件从暂存区移出，更改仍保留在工作目录中，不会被删除。
+5.diff
+	git diff 比较的是工作区与暂存区的差异
+	Show differences for staged files
+	git diff --staged 比较暂存区和最近提交的差异
+6.git rebase master	
+你在 feature 分支开发。
+执行 git rebase master，将 master 的最新代码合并进你的分支，并整理好你的提交历史。
+切回 master 分支，执行 git merge feature。因为你的分支已经基于最新的 master 了，所以这一步通常会触发 Fast-forward（快进合并），直接移动指针，不会留下多余的合并提交。
+7.分支
+	创建分支
+	git branch <name>
+	切换分支
+	git checkout <name>
+	To create a new branch and switch to it:
+	git checkout -b <name>
+	
+	List merged branches 
+	git branch --merged
+	List unmerged branches 
+	git branch --no-merged
+8.git tag
+9.git push
+	git push origin main
