@@ -50,3 +50,9 @@ from the remote, but no such ref was fetched.
 
 
 git push 任务会创建分支
+
+git reset --hard HEAD^
+git reset --hard 3628164
+git reflog
+
+git diff HEAD -- readme.txt
