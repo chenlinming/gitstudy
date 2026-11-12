@@ -1,0 +1,58 @@
+一、git clone
+
+	git checkout -b <新分支名> [起始点]
+
+	1. 基于当前分支创建并切换（最常用）
+	如果你当前在 main 分支，想创建一个名为 feature-login 的新分支并直接切过去
+
+	git checkout -b feature-login
+
+	2.基于指定的已有分支创建
+	如果你想基于 develop 分支创建一个 bugfix-header 分支，而不需要先手动切换到 develop
+	git checkout -b bugfix-header develop
+
+	3.基于远程分支创建
+	在拉取远程代码后，基于远程分支 origin/dev 创建本地分支
+	git checkout -b dev origin/dev
+
+
+二 、git checkout -b rel_clm/fea origin/test
+
+git pull 
+如果 test 变了 
+git pull 不变
+
+三  git pull [选项] [远程仓库名] [远程分支名]
+直接拉取（最常用）：自动拉取当前分支对应的远程分支并合并
+git pull
+
+指定远程仓库和分支：从 origin 的 main 分支拉取代码并合并到当前分支。
+git pull origin main
+
+eg:
+rel_clm/fea 修改
+git push  // remote rel_clm/fea
+
+git pull orgin test
+
+git push 
+
+git pull request
+
+删除远程分支
+git push origin --delete <branch-name>
+eg:
+git push origin --delete rel_clm/fea
+
+ git pull
+Your configuration specifies to merge with the ref 'refs/heads/rel_clm/fea'
+from the remote, but no such ref was fetched.
+
+
+git push 任务会创建分支
+
+git reset --hard HEAD^
+git reset --hard 3628164
+git reflog
+
+git diff HEAD -- readme.txt
